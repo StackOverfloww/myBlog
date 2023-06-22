@@ -7,12 +7,13 @@ import Author from "../components/Author";
 import Advert from "../components/Advert";
 import Footer from "../components/Footer";
 import "../static/style/pages/detailed.css";
-import "markdown-navbar/dist/navbar.css";
+//import "markdown-navbar/dist/navbar.css";
 import axios from "axios";
 import marked from "marked";
 import hljs from "highlight.js";
 import "highlight.js/styles/monokai-sublime.css";
 import Tocify from "../components/tocify.tsx";
+import servicePath from "./api/apiUrl";
 
 const Detailed = (props) => {
   let articleContent = props.article_content;
@@ -101,15 +102,16 @@ const Detailed = (props) => {
 
 Detailed.getInitialProps = async (context) => {
   console.log(context.query.id);
-  let id = context.query.id;
-  const promise = new Promise((resolve) => {
-    axios("http://127.0.0.1:7001/default/getArticleById/" + id).then((res) => {
-      // console.log(title)
-      resolve(res.data.data[0]);
-    });
-  });
+  const { id } = context.query;
 
-  return await promise;
+  try {
+    const res = await axios(servicePath.getArticleById + id);
+    const data = res.data?.data[0] ?? [];
+    return data;
+  } catch (error) {
+    console.error(error);
+    return {};
+  }
 };
 
 export default Detailed;

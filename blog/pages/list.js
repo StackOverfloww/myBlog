@@ -1,36 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import { Row, Col, List, Icon, Breadcrumb } from "antd";
 import Header from "../components/Header";
 import Author from "../components/Author";
 import Advert from "../components/Advert";
 import Footer from "../components/Footer";
+import "../static/style/pages/list.css";
 import axios from "axios";
-import Link from "next/link";
-import "../static/style/pages/index.css";
 import servicePath from "./api/apiUrl";
-import marked from "marked";
-import hljs from "highlight.js";
-import "highlight.js/styles/monokai-sublime.css";
+import Link from "next/link";
 
-const Home = (list) => {
+const MyList = (list) => {
   const [mylist, setMylist] = useState(list.data);
-  const renderer = new marked.Renderer();
-  marked.setOptions({
-    renderer: renderer,
-    gfm: true,
-    pedantic: false,
-    sanitize: false,
-    tables: true,
-    breaks: false,
-    smartLists: true,
-    smartypants: false,
-    sanitize: false,
-    xhtml: false,
-    highlight: function (code) {
-      return hljs.highlightAuto(code).value;
-    },
+
+  // 没有第二个参数，类似didMount和Update一起的生命周期，组件每次render时，func都会执行
+  useEffect(() => {
+    setMylist(list.data);
   });
+
   return (
     <>
       <Head>
@@ -73,10 +60,7 @@ const Home = (list) => {
                       <Icon type="fire" /> {item.view_count}人
                     </span>
                   </div>
-                  <div
-                    className="list-context"
-                    dangerouslySetInnerHTML={{ __html: marked(item.introduce) }}
-                  />
+                  <div className="list-context">{item.introduce}</div>
                 </List.Item>
               )}
             />
@@ -92,14 +76,17 @@ const Home = (list) => {
     </>
   );
 };
-Home.getInitialProps = async () => {
+
+MyList.getInitialProps = async (context) => {
+  const { id } = context.query;
+
   try {
-    const res = await axios(servicePath.getArticleList);
+    const res = await axios(servicePath.getListById + id);
     return res.data;
   } catch (error) {
-    console.error(error);
+    console.log(error);
     return {};
   }
 };
 
-export default Home;
+export default MyList;
