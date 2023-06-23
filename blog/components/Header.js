@@ -13,18 +13,18 @@ const Header = () => {
       try {
         const result = await axios(servicePath.getTypeInfo);
         setNavArray(result.data.data);
-        console.log("navArray:", result.data.data);
       } catch (error) {
         console.log(error);
       }
     };
+
     fetchData();
   }, []);
 
   //跳转到列表页
   const handleClick = (e) => {
     if (e.key == 0) {
-      Router.push("/index");
+      Router.push("/");
     } else {
       Router.push("/list?id=" + e.key);
     }

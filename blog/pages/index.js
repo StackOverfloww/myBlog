@@ -9,28 +9,12 @@ import axios from "axios";
 import Link from "next/link";
 import "../static/style/pages/index.css";
 import servicePath from "./api/apiUrl";
-import marked from "marked";
-import hljs from "highlight.js";
 import "highlight.js/styles/monokai-sublime.css";
+import { formatMarkDown } from "../utils/formatMarkDown";
 
 const Home = (list) => {
   const [mylist, setMylist] = useState(list.data);
-  const renderer = new marked.Renderer();
-  marked.setOptions({
-    renderer: renderer,
-    gfm: true,
-    pedantic: false,
-    sanitize: false,
-    tables: true,
-    breaks: false,
-    smartLists: true,
-    smartypants: false,
-    sanitize: false,
-    xhtml: false,
-    highlight: function (code) {
-      return hljs.highlightAuto(code).value;
-    },
-  });
+
   return (
     <>
       <Head>
@@ -45,7 +29,6 @@ const Home = (list) => {
                 <Breadcrumb.Item>
                   <a href="/">首页</a>
                 </Breadcrumb.Item>
-                <Breadcrumb.Item>视频列表</Breadcrumb.Item>
               </Breadcrumb>
             </div>
 
@@ -70,12 +53,14 @@ const Home = (list) => {
                       <Icon type="folder" /> {item.typeName}
                     </span>
                     <span>
-                      <Icon type="fire" /> {item.view_count}人
+                      <Icon type="fire" /> {item.view_count}
                     </span>
                   </div>
                   <div
                     className="list-context"
-                    dangerouslySetInnerHTML={{ __html: marked(item.introduce) }}
+                    dangerouslySetInnerHTML={{
+                      __html: formatMarkDown(item.introduce),
+                    }}
                   />
                 </List.Item>
               )}

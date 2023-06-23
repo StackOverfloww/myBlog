@@ -32,7 +32,7 @@ const MyList = (list) => {
                 <Breadcrumb.Item>
                   <a href="/">首页</a>
                 </Breadcrumb.Item>
-                <Breadcrumb.Item>视频列表</Breadcrumb.Item>
+                <Breadcrumb.Item>博客分类</Breadcrumb.Item>
               </Breadcrumb>
             </div>
 

@@ -50,7 +50,7 @@ code {
   margin: 0rem !important;
   height: auto !important;
   line-height: 1.2rem !important;
-  font-size: 0.7rem !important;
+  font-size: 1rem !important;
   border-bottom: 1px dashed #eee;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -78,8 +78,16 @@ iframe {
   display: none !important;
 }
 .ant-anchor-link-title {
-  font-size: 12px !important;
+  font-size: 16px !important;
 }
 .ant-anchor-wrapper {
   padding: 5px !important;
+}
+
+.toc-title {
+  text-align: center;
+  line-height: 30px;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 10px;
+  font-size: 18px;
 }
